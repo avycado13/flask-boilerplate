@@ -45,9 +45,9 @@ def create_app(config_class=Config):
     extensions.admin.add_view(AdminView(models.Role, extensions.db.session)
         )
     extensions.admin.add_view(AdminView(models.Transaction, extensions.db.session))
-    # extensions.admin.add_view(
-    #     TransactionView(models.Transaction, extensions.db.session)
-    # )
+    extensions.admin.add_view(
+        TransactionView(models.Transaction, extensions.db.session)
+    )
     app.register_blueprint(main_bp)
     with app.app_context():
         if os.path.exists("instance/test.db"):

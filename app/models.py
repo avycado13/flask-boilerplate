@@ -12,22 +12,6 @@ roles_users = db.Table(
     extend_existing=True,
 )
 
-
-class Transaction(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, db.ForeignKey("user.username"), nullable=False)
-    recipient_id = db.Column(db.Integer, db.ForeignKey("user.username"), nullable=False)
-    amount = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-
-    sender = db.relationship(
-        "User", foreign_keys=[sender_id], backref="sent_transactions"
-    )
-    recipient = db.relationship(
-        "User", foreign_keys=[recipient_id], backref="received_transactions"
-    )
-
-
 class User(db.Model, UserMixin):
     @db.declared_attr
     def webauthn(cls):
@@ -50,7 +34,6 @@ class User(db.Model, UserMixin):
     tf_totp_secret = db.Column(db.String(255), nullable=True)
     tf_primary_method = db.Column(db.String(255))
     username = db.Column(db.String(255), unique=True)
-    balance = db.Column(db.Float, default=0.0)
 
 
 class Role(db.Model, RoleMixin):
